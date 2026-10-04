@@ -60,3 +60,11 @@ body{overflow-x:hidden;background:radial-gradient(circle at 88% 8%,#f0dce2 0,tra
 .hero-stage .hero-photo:before{content:"";position:absolute;inset:-7px;z-index:-1;border-radius:226px 226px 30px 30px;background:linear-gradient(145deg,rgba(255,255,255,.9),rgba(198,61,103,.22),rgba(42,25,30,.18));box-shadow:0 35px 80px rgba(61,30,40,.22);transform:translateZ(-16px)}
 @media(max-width:520px){.hero-arrow{width:42px;height:42px;font-size:32px}.hero-arrow.prev{left:9px}.hero-arrow.next{right:9px}.hero-progress{bottom:10px}}
 @media(prefers-reduced-motion:reduce){.hero-slide{transition:opacity .15s!important;transform:none!important}}
+
+
+/* Fix: suppress legacy carousel arrows behind the new 3D controls */
+.hero-carousel > .hero-slides ~ .prev:not(.hero-arrow),
+.hero-carousel > .hero-slides ~ .next:not(.hero-arrow),
+.hero-stage .slider-arrow:not(.hero-arrow),
+.hero-stage .carousel-arrow:not(.hero-arrow){display:none!important}
+.hero-arrow{z-index:12!important}
