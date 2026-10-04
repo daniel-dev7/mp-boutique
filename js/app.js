@@ -29,3 +29,16 @@ function initProduct3D(){
     });
   });
 }
+
+
+function initHero3D(){
+  var stage=document.getElementById("heroStage");
+  if(!stage||!window.matchMedia("(hover:hover) and (pointer:fine)").matches||window.matchMedia("(prefers-reduced-motion:reduce)").matches)return;
+  var photo=stage.querySelector(".hero-photo");
+  stage.addEventListener("mousemove",function(e){
+    var r=stage.getBoundingClientRect(),x=(e.clientX-r.left)/r.width-.5,y=(e.clientY-r.top)/r.height-.5;
+    photo.style.transform="rotateY("+(-5+x*9)+"deg) rotateX("+(2-y*7)+"deg) translate3d("+(x*8)+"px,"+(y*8)+"px,12px)";
+  });
+  stage.addEventListener("mouseleave",function(){photo.style.transform=""});
+}
+initHero3D();
