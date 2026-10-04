@@ -1,5 +1,5 @@
 var cart=JSON.parse(sessionStorage.getItem("mp-cart")||"[]"),current=null,grid=document.getElementById("grid");
-function render(filter){var out="";products.forEach(function(p,i){if(filter!=="Todos"&&p.cat!==filter)return;out+='<article class="card" data-i="'+i+'"><div class="card-media"><img src="'+p.img+'" alt="'+p.name+'" loading="lazy"></div><div class="card-body"><div class="tag">'+p.cat+'</div><h3>'+p.name+'</h3><p>Consultar disponibilidade</p></div></article>'});grid.innerHTML=out}
+function render(filter){var out="";products.forEach(function(p,i){if(filter!=="Todos"&&p.cat!==filter)return;out+='<article class="card" data-i="'+i+'"><div class="card-media"><img src="'+p.img+'" alt="'+p.name+'" loading="lazy"></div><div class="card-body"><div class="tag">'+p.cat+'</div><h3>'+p.name+'</h3><p>Consultar disponibilidade</p></div></article>'});grid.innerHTML=out;initProduct3D()}
 function save(){sessionStorage.setItem("mp-cart",JSON.stringify(cart));renderCart();document.getElementById("cartCount").textContent=cart.reduce(function(s,x){return s+x.qty},0)}
 function renderCart(){var el=document.getElementById("cartItems");if(!cart.length){el.innerHTML='<div class="empty">Seu carrinho está vazio.<br>Escolha algumas peças para começar.</div>';return}var out="";cart.forEach(function(x,i){out+='<div class="cart-item"><img src="'+x.img+'" alt=""><div><b>'+x.name+'</b><div class="small">'+x.cat+'</div><div class="qty"><button data-act="minus" data-i="'+i+'">−</button><span>'+x.qty+'</span><button data-act="plus" data-i="'+i+'">+</button></div></div><button class="close" data-act="remove" data-i="'+i+'">×</button></div>'});el.innerHTML=out}
 grid.addEventListener("click",function(e){var c=e.target.closest(".card");if(!c)return;current=products[Number(c.dataset.i)];document.getElementById("pmImage").src=current.img;document.getElementById("pmName").textContent=current.name;document.getElementById("pmTag").textContent=current.cat;document.getElementById("pmDesc").textContent=current.desc;document.getElementById("productOverlay").classList.add("show")});
@@ -10,3 +10,22 @@ document.getElementById("cartOverlay").addEventListener("click",function(e){var 
 document.getElementById("clearCart").onclick=function(){cart=[];save()};
 document.getElementById("sendOrder").onclick=function(){if(!cart.length)return;var lines=cart.map(function(x){return "• "+x.name+" — quantidade: "+x.qty}).join("\n");var msg="Olá! Quero fazer um pedido na MP Boutique:\n\n"+lines+"\n\nGostaria de confirmar disponibilidade, tamanhos, cores e valores.";window.open("https://wa.me/559182777239?text="+encodeURIComponent(msg),"_blank")};
 document.getElementById("year").textContent=new Date().getFullYear();render("Todos");save();
+
+function initProduct3D(){
+  if(!window.matchMedia("(hover:hover) and (pointer:fine)").matches)return;
+  document.querySelectorAll(".card").forEach(function(card){
+    card.addEventListener("mousemove",function(e){
+      var r=card.getBoundingClientRect();
+      var x=(e.clientX-r.left)/r.width, y=(e.clientY-r.top)/r.height;
+      var ry=(x-.5)*10, rx=(.5-y)*10;
+      card.style.setProperty("--mx",(x*100)+"%");
+      card.style.setProperty("--my",(y*100)+"%");
+      card.style.transform="perspective(900px) rotateX("+rx+"deg) rotateY("+ry+"deg) translateY(-7px)";
+    });
+    card.addEventListener("mouseleave",function(){
+      card.style.transform="";
+      card.style.removeProperty("--mx");
+      card.style.removeProperty("--my");
+    });
+  });
+}
