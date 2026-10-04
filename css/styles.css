@@ -68,3 +68,14 @@ body{overflow-x:hidden;background:radial-gradient(circle at 88% 8%,#f0dce2 0,tra
 .hero-stage .slider-arrow:not(.hero-arrow),
 .hero-stage .carousel-arrow:not(.hero-arrow){display:none!important}
 .hero-arrow{z-index:12!important}
+
+
+/* Scroll reveal animations */
+.reveal-scroll{opacity:0;transform:translate3d(0,34px,0) scale(.985);filter:blur(5px);transition:opacity .8s ease,transform .85s cubic-bezier(.2,.7,.2,1),filter .7s ease;transition-delay:var(--reveal-delay,0ms);will-change:opacity,transform}
+.reveal-scroll.reveal-left{transform:translate3d(-34px,20px,0) rotateY(5deg)}
+.reveal-scroll.reveal-right{transform:translate3d(34px,20px,0) rotateY(-5deg)}
+.reveal-scroll.is-visible{opacity:1;transform:translate3d(0,0,0) scale(1) rotateY(0);filter:blur(0)}
+.card.reveal-scroll{transform:translate3d(0,38px,0) scale(.96)}
+.card.reveal-scroll.is-visible{transform:translate3d(0,0,0) scale(1)}
+@media(max-width:520px){.reveal-scroll{transform:translate3d(0,24px,0);filter:blur(3px);transition-duration:.65s}.reveal-scroll.reveal-left,.reveal-scroll.reveal-right{transform:translate3d(0,24px,0)}}
+@media(prefers-reduced-motion:reduce){.reveal-scroll,.reveal-scroll.reveal-left,.reveal-scroll.reveal-right,.card.reveal-scroll{opacity:1!important;transform:none!important;filter:none!important;transition:none!important}}
