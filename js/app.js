@@ -47,7 +47,7 @@ initHero3D();
 function initHeroCarousel(){
   var box=document.getElementById("heroSlides"),dots=document.getElementById("heroProgress"),prev=document.getElementById("heroPrev"),next=document.getElementById("heroNext");
   if(!box||!products||!products.length)return;
-  var slides=[{img:"assets/hero.jpg",name:"MP Boutique"}].concat(products.map(function(p){return {img:p.img,name:p.name}}));
+  var slides=products.map(function(p){return {img:p.img,name:p.name}});
   var seen={},unique=slides.filter(function(s){if(seen[s.img])return false;seen[s.img]=true;return true}),index=0,busy=false,touchX=0;
   box.innerHTML=unique.map(function(s,i){return '<img class="hero-slide'+(i===0?' active':'')+'" src="'+s.img+'" alt="'+s.name+'" '+(i?'loading="lazy"':'')+'>'}).join("");
   dots.innerHTML=unique.map(function(_,i){return '<button type="button" class="hero-dot'+(i===0?' active':'')+'" data-slide="'+i+'" aria-label="Ir para foto '+(i+1)+'"></button>'}).join("");
