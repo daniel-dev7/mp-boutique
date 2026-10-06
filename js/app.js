@@ -87,3 +87,24 @@ var scrollRevealObserver=new IntersectionObserver(function(entries){
 },{threshold:.12,rootMargin:"0px 0px -7% 0px"});
 initScrollReveal();
 initScrollReveal(grid);
+
+
+function initCinematicUI(){
+  var intro=document.getElementById("intro"),skip=document.getElementById("skipIntro"),header=document.querySelector("header"),lastY=window.scrollY;
+  function closeIntro(){if(intro)intro.classList.add("hide")}
+  if(skip)skip.addEventListener("click",closeIntro);
+  setTimeout(closeIntro,2200);
+  window.addEventListener("scroll",function(){
+    var y=window.scrollY;
+    if(header){if(y>120&&y>lastY+4)header.classList.add("header-hidden");else if(y<lastY-4)header.classList.remove("header-hidden")}
+    lastY=y;
+  },{passive:true});
+  var manifesto=document.querySelector(".manifesto-text");
+  if(manifesto&&!window.matchMedia("(prefers-reduced-motion:reduce)").matches){
+    window.addEventListener("scroll",function(){
+      var r=manifesto.getBoundingClientRect(),vh=window.innerHeight,p=Math.max(-1,Math.min(1,(vh/2-(r.top+r.height/2))/vh));
+      manifesto.style.transform="translate3d("+(p*14)+"px,0,0)";
+    },{passive:true});
+  }
+}
+initCinematicUI();
